@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { UserModel } from "../../models/auth.model";
+import { UserModel } from "../models/auth.model";
 
 // Create new user function
 export const register = async (req: Request, res: Response) => {
