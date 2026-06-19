@@ -1,1 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=TikTok+Sans:opsz,wght@12..36,300..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap");
 @import "tailwindcss";
+
+html {
+  font-family: var(--font-fredoka);
+}
+
+button {
+  cursor: pointer;
+}
+
+@theme {
+  --font-tiktok-sans: "TikTok Sans", sans-serif;
+  --font-fredoka: "Fredoka", sans-serif;
+  --color-auth-bg: #4bb8fa;
+  --color-form-bg: #fcf8f8;
+  --color-primary: #004aad;
+}
