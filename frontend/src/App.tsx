@@ -1,9 +1,7 @@
+import { RegisterPage } from "./pages/auth/RegisterPage";
+
 function App() {
-  return (
-    <div>
-      <h1>asdasd</h1>
-    </div>
-  );
+  return <RegisterPage />;
 }
 
 export default App;
