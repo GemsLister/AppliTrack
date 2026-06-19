@@ -20,6 +20,8 @@ export const useRegister = () => {
 
       //   Save token
       localStorage.setItem("token", data.token);
+      console.log("success");
+
       return data;
     } catch (error: unknown) {
       if (error instanceof Error) setError(error.message);
