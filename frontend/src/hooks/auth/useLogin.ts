@@ -12,6 +12,7 @@ export const useLogin = () => {
       setLoading(true);
       setError(null);
       const { data } = await api.post("/auth/login", { email, password });
+      console.log("Successful");
       // Save token
       localStorage.setItem("token", data.token);
     } catch (error) {
