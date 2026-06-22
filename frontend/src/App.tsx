@@ -1,7 +1,17 @@
-import { RegisterPage } from "./pages/auth/RegisterPage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import * as AuthPages from "./pages/auth/index";
 
 function App() {
-  return <RegisterPage />;
+  // <AuthPages.LoginPage />
+  return (
+    <Router>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<AuthPages.LoginPage />} />
+        <Route path="register" element={<AuthPages.RegisterPage />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
