@@ -10,7 +10,8 @@ export const register = async (req: Request, res: Response) => {
 
     // Cheks if the user already exists
     const existingUser = await UserModel.findByEmail(email);
-    if (existingUser) res.status(400).json({ message: "User already exists" });
+    if (existingUser)
+      return res.status(400).json({ message: "User already exists" });
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -23,14 +24,11 @@ export const register = async (req: Request, res: Response) => {
       { expiresIn: "1h" },
     );
 
-    res
-      .status(200)
-      .json({ message: "User registered successfully", token, user: newUser });
-
-    res
+    return res
       .status(201)
-      .json({ message: "User created successfully", user: newUser });
+      .json({ message: "User created successfully", token, user: newUser });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
