@@ -17,14 +17,16 @@ export const useRegister = () => {
         email,
         password,
       });
-
+      console.log("Response: ", data);
       //   Save token
       localStorage.setItem("token", data.token);
       console.log("success");
-
       return data;
     } catch (error: unknown) {
-      if (error instanceof Error) setError(error.message);
+      if (error instanceof Error) {
+        setError(error.message);
+        console.error("Error: ", error.message);
+      }
     } finally {
       setLoading(false);
     }
