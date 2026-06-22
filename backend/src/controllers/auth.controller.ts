@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { UserModel } from "../models/auth.model";
 
@@ -61,6 +62,41 @@ export const login = async (req: Request, res: Response) => {
         email: user.email,
       },
     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const forgotPassword = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+
+    const user = await UserModel.findByEmail(email);
+    if (!user) return res.status(404).json({ message: "Email doesn't exists" });
+
+    const token = crypto.randomBytes(32).toString("hex");
+
+    const resetTokenExpiry = new Date(Date.now() + 15 * 60 * 1000);
+
+    await UserModel.saveResetToken(email, token, resetTokenExpiry);
+
+    return res
+      .status(200)
+      .json({ message: "Reset token generated", resetToken: token });
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const resetPassword = async (req: Request, res: Response) => {
+  try {
+    const { resetToken, password } = req.body;
+    const user = await UserModel.findByResetToken(resetToken);
+    if (!user) return res.status(400).json({ message: "Expired token!" });
+    await UserModel.updatePassword(user.email, password);
+    await UserModel.clearResetToken(user.email);
+    return res.status(200).json({ message: "Reset Password Successful" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
