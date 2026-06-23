@@ -9,6 +9,14 @@ function App() {
         {/* Public Routes */}
         <Route path="/" element={<AuthPages.LoginPage />} />
         <Route path="register" element={<AuthPages.RegisterPage />} />
+        <Route
+          path="forgot-password"
+          element={<AuthPages.ForgotPasswordPage />}
+        />
+        <Route
+          path="reset-password"
+          element={<AuthPages.ResetPasswordPage />}
+        />
       </Routes>
     </Router>
   );
