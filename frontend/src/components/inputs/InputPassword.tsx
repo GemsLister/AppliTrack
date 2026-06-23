@@ -17,7 +17,7 @@ export const InputPassword = ({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="grid grid-rows-3 gap-1">
       <label>{label}</label>
       <div className="relative">
         <input
