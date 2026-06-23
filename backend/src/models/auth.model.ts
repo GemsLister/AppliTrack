@@ -24,11 +24,16 @@ export const UserModel = {
     resetToken: string,
     resetTokenExpiry: Date,
   ) => {
-    const result = await pool.query(
-      `UPDATE users SET reset_token = $1, reset_token_expiry = $2 WHERE email = $3`,
-      [resetToken, resetTokenExpiry, email],
-    );
-    return result.rows[0];
+    try {
+      const result = await pool.query(
+        `UPDATE users SET reset_token = $1, reset_token_expiry = $2 WHERE email = $3 RETURNING *`,
+        [resetToken, resetTokenExpiry, email],
+      );
+      console.log(result.rows[0]);
+      return result.rows[0];
+    } catch (err) {
+      throw err;
+    }
   },
 
   // Reset Password
