@@ -4,8 +4,15 @@ import * as Inputs from "../inputs/index";
 import webLogo from "../../assets/web_logo.png";
 
 export const ResetPasswordForm = () => {
-  const { email, setEmail, loading, error, forgotPassword } =
-    AuthHooks.useForgotPassword();
+  const {
+    resetPassword,
+    newPassword,
+    setNewPassword,
+    confirmPassword,
+    setConfirmPassword,
+    loading,
+    error,
+  } = AuthHooks.useResetPassword();
 
   return (
     <form className="flex flex-col items-center justify-center gap-3 sm:h-[495px] md:gap-1 w-[450px] rounded-4xl sm:shadow-2xl sm:bg-form-bg">
@@ -23,20 +30,20 @@ export const ResetPasswordForm = () => {
             <Inputs.InputPassword
               label="New password"
               placeholder="******"
-              value={email}
-              onChange={setEmail}
+              value={newPassword}
+              onChange={setNewPassword}
             />
             <Inputs.InputPassword
               label="Confirm password"
               placeholder="******"
-              value={email}
-              onChange={setEmail}
+              value={confirmPassword}
+              onChange={setConfirmPassword}
             />
           </div>
           <div className="flex flex-col mt-3 gap-3">
             <Buttons.PrimaryButton
               type="submit"
-              onClick={forgotPassword}
+              onClick={resetPassword}
               loading={loading}
             >
               {loading ? "Loading..." : "Continue"}
