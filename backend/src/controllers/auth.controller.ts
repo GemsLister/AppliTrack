@@ -8,6 +8,7 @@ import { UserModel } from "../models/auth.model";
 export const register = async (req: Request, res: Response) => {
   try {
     const { username, email, password } = req.body;
+    console.log(username, email, password);
 
     // Cheks if the user already exists
     const existingUser = await UserModel.findByEmail(email);
@@ -25,6 +26,8 @@ export const register = async (req: Request, res: Response) => {
       { expiresIn: "1h" },
     );
 
+    console.log(token);
+
     return res
       .status(201)
       .json({ message: "User created successfully", token, user: newUser });
@@ -38,13 +41,18 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
+    console.log("Login attempt: ", { email, password });
 
     // Check email
     const user = await UserModel.findByEmail(email);
+    console.log("User: ", user);
+
     if (!user) return res.status(404).json({ message: "User does not exists" });
 
     // Check password
     const validPassword = await bcrypt.compare(password, user.password);
+    console.log("Password Valid: ", validPassword);
+
     if (!validPassword)
       return res.status(400).json({ message: "Invalid password" });
 
@@ -59,6 +67,7 @@ export const login = async (req: Request, res: Response) => {
       token,
       user: {
         id: user.id,
+        username: user.username,
         email: user.email,
       },
     });
@@ -71,15 +80,22 @@ export const login = async (req: Request, res: Response) => {
 export const forgotPassword = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
+    console.log("Email received: ", email);
 
     const user = await UserModel.findByEmail(email);
+    console.log("User: ", user);
+
     if (!user) return res.status(404).json({ message: "Email doesn't exists" });
 
     const token = crypto.randomBytes(32).toString("hex");
+    console.log("Token: ", token);
 
     const resetTokenExpiry = new Date(Date.now() + 15 * 60 * 1000);
+    console.log("Expiry: ", resetTokenExpiry);
 
     await UserModel.saveResetToken(email, token, resetTokenExpiry);
+
+    console.log("Token saved!");
 
     return res
       .status(200)
@@ -94,7 +110,10 @@ export const resetPassword = async (req: Request, res: Response) => {
     const { resetToken, password } = req.body;
     const user = await UserModel.findByResetToken(resetToken);
     if (!user) return res.status(400).json({ message: "Expired token!" });
-    await UserModel.updatePassword(user.email, password);
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await UserModel.updatePassword(user.email, hashedPassword);
     await UserModel.clearResetToken(user.email);
     return res.status(200).json({ message: "Reset Password Successful" });
   } catch (error) {
