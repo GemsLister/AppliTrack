@@ -1,5 +1,6 @@
 import * as AuthHooks from "../../hooks/auth/index";
 import * as Buttons from "../buttons/index";
+import * as Inputs from "../inputs/index";
 import webLogo from "../../assets/web_logo.png";
 
 export const LoginForm = () => {
@@ -7,20 +8,18 @@ export const LoginForm = () => {
     AuthHooks.useLogin();
 
   const inputFields = [
-    {
-      label: "Email",
-      type: "email",
-      placeholder: "name@email.com",
-      value: email,
-      onChange: setEmail,
-    },
-    {
-      label: "Password",
-      type: "password",
-      placeholder: "******",
-      value: password,
-      onChange: setPassword,
-    },
+    <Inputs.InputEmail
+      label="Email"
+      placeholder="name@email.com"
+      value={email}
+      onChange={setEmail}
+    />,
+    <Inputs.InputPassword
+      label="Password"
+      placeholder="******"
+      value={password}
+      onChange={setPassword}
+    />,
   ];
 
   return (
@@ -36,22 +35,15 @@ export const LoginForm = () => {
           </div>
           {/* Inputs and Auth Button */}
           <div className="flex flex-col">
-            {inputFields.map((inputs, index) => (
-              <div className="flex flex-col my-1" key={index}>
-                <div className="flex flex-col gap-2">
-                  <label className="text-slate-600">{inputs.label}</label>
-                  <input
-                    type={inputs.type}
-                    placeholder={inputs.placeholder}
-                    className="border rounded-xl p-2 border-slate-400 text-slate-600 text-[16px]"
-                    value={inputs.value}
-                    onChange={(e) => inputs.onChange(e.target.value)}
-                  />
+            <div className="grid grid-rows-2">
+              {inputFields.map((inputs, index) => (
+                <div className="flex flex-col my-1" key={index}>
+                  {inputs}
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
             <div className="flex justify-end">
-              <a href="#" className="text-primary">
+              <a href="/forgot-password" className="text-primary">
                 Forgot password
               </a>
             </div>
