@@ -1,5 +1,6 @@
 import { api } from "../../api/axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const useRegister = () => {
   const [username, setUsername] = useState("");
@@ -7,7 +8,7 @@ export const useRegister = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  const navigate = useNavigate();
   const register = async () => {
     try {
       setLoading(true);
@@ -17,6 +18,7 @@ export const useRegister = () => {
         email,
         password,
       });
+      navigate("/");
       console.log("Response: ", data);
       //   Save token
       localStorage.setItem("token", data.token);
