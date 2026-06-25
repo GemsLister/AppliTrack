@@ -1,6 +1,7 @@
 import { api } from "../../api/axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export const useRegister = () => {
   const [username, setUsername] = useState("");
@@ -22,10 +23,22 @@ export const useRegister = () => {
       console.log("Response: ", data);
       //   Save token
       localStorage.setItem("token", data.token);
+      Swal.fire({
+        icon: "success",
+        title: "Account created successfully",
+        text: "You are ready to go!",
+        confirmButtonColor: "#004aad",
+      });
       console.log("success");
       return data;
     } catch (error: unknown) {
       if (error instanceof Error) {
+        Swal.fire({
+          icon: "error",
+          title: "Email already exists",
+          text: "Please use another email",
+          confirmButtonColor: "#004aad",
+        });
         setError(error.message);
         console.error("Error: ", error.message);
       }
