@@ -20,6 +20,7 @@ export const InputEmail = ({
         className="border rounded-xl p-2 border-slate-400 text-slate-600 text-[16px]"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        required
       />
     </div>
   );

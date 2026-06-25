@@ -26,6 +26,7 @@ export const InputPassword = ({
           className="absolute border rounded-xl p-2 border-slate-400 text-slate-600 text-[16px] w-full"
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          required
         />
         <button
           type="button"
