@@ -39,7 +39,7 @@ export const RegisterForm = () => {
   ];
 
   return (
-    <form className="flex flex-col items-center justify-center gap-3 sm:h-[495px] md:gap-1 w-[450px] rounded-4xl sm:shadow-2xl sm:bg-form-bg">
+    <form className="flex flex-col items-center justify-center gap-3 sm:h-[550px] md:gap-1 w-[450px] rounded-4xl sm:shadow-2xl sm:bg-form-bg">
       <div className="flex flex-col h-full justify-center sm:justify-around gap-3 w-full px-7">
         <div className="flex flex-col gap-3">
           {/* Logo and Tagline */}
